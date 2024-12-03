@@ -55,7 +55,7 @@ public:
         MCIWndClose(m_mci_window);
 
         using namespace Gdiplus;
-        MStringW strTextW = MTextToWide(pszFile).c_str();
+        MStringW strTextW = MTextToWide(pszFile);
         Bitmap *pBitmap = Bitmap::FromFile(strTextW.c_str());
         BOOL bOK = (pBitmap->GetFrameDimensionsCount() > 0);
         if (bOK)
