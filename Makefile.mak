@@ -4,6 +4,7 @@ DOTOBJ = .obj
 DOTEXE = .exe
 
 CXX = cl
+LD = link
 RC = rc
 
 CXXFLAGS = -O2 -DUNICODE=1 -D_UNICODE=1
@@ -13,7 +14,7 @@ OBJS = \
 	build\ImagePlayerApp$(DOTOBJ)
 
 LIBS = \
-	vfw32/lib
+	user32.lib gdi32.lib comctl32.lib shell32.lib vfw32.lib
 
 HEADERS = \
 	MBitmapDx.hpp \
@@ -28,11 +29,10 @@ build:
 	if not exist build mkdir build
 
 build\ImagePlayerApp$(DOTEXE): $(OBJS) build\ImagePlayerApp_res.res
-	$(CXX) $(CXXFLAGS) -Fo:build\ImagePlayerApp$(DOTEXE) $(OBJS) $(LIBS)
-	$(RC) $(RCFLAGS) build\ImagePlayerApp_res.res build\ImagePlayerApp$(DOTEXE)
+	$(LD) -out:build\ImagePlayerApp$(DOTEXE) $(OBJS) build\ImagePlayerApp_res.res $(LIBS)
 
 build\ImagePlayerApp$(DOTOBJ): build $(HEADERS) ImagePlayerApp.cpp
-	$(CXX) -c $(CXXFLAGS) -obuild\ImagePlayerApp$(DOTOBJ) ImagePlayerApp.cpp
+	$(CXX) -c $(CXXFLAGS) -Fobuild\ImagePlayerApp$(DOTOBJ) ImagePlayerApp.cpp
 
 build\ImagePlayerApp_res.res: resource.h ImagePlayerApp_res.rc
 	$(RC) -r $(RCFLAGS) -fobuild\ImagePlayerApp_res.res ImagePlayerApp_res.rc
