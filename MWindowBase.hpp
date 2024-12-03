@@ -972,7 +972,7 @@ inline /*static*/ MString MWindowBase::GetWindowText(HWND hwnd)
     MString ret;
     ret.resize(cch);
     if (!::GetWindowText(hwnd, &ret[0], cch + 1))
-        ret.clear();
+        ret.erase(ret.begin(), ret.end());
     return ret;
 }
 

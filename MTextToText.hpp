@@ -239,7 +239,7 @@ inline MAnsiToWide::MAnsiToWide(const char *str)
     m_str.resize(cch);
     if (!::MultiByteToWideChar(CP_ACP, 0, str, -1, &m_str[0], cch + 1))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -249,7 +249,7 @@ inline MAnsiToWide::MAnsiToWide(const char *str, INT count)
     m_str.resize(cch);
     if (!::MultiByteToWideChar(CP_ACP, 0, str, count, &m_str[0], cch + 1))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -261,7 +261,7 @@ inline MAnsiToWide::MAnsiToWide(const std::string& str)
     if (!::MultiByteToWideChar(CP_ACP, 0, str.c_str(), INT(str.size()),
                                &m_str[0], cch + 1))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -272,7 +272,7 @@ inline MWideToAnsi::MWideToAnsi(const wchar_t *str)
     if (!::WideCharToMultiByte(CP_ACP, 0, str, -1, &m_str[0], cch + 1,
                                NULL, NULL))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -283,7 +283,7 @@ inline MWideToAnsi::MWideToAnsi(const wchar_t *str, INT count)
     if (!::WideCharToMultiByte(CP_ACP, 0, str, count, &m_str[0], cch + 1,
                                NULL, NULL))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -295,7 +295,7 @@ inline MWideToAnsi::MWideToAnsi(const std::wstring& str)
     if (!::WideCharToMultiByte(CP_ACP, 0, str.c_str(), INT(str.size()),
                                &m_str[0], cch + 1, NULL, NULL))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -305,7 +305,7 @@ inline MUtf8ToWide::MUtf8ToWide(const char *str)
     m_str.resize(cch);
     if (!::MultiByteToWideChar(CP_UTF8, 0, str, -1, &m_str[0], cch + 1))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -315,7 +315,7 @@ inline MUtf8ToWide::MUtf8ToWide(const char *str, INT count)
     m_str.resize(cch);
     if (!::MultiByteToWideChar(CP_UTF8, 0, str, count, &m_str[0], cch + 1))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -327,7 +327,7 @@ inline MUtf8ToWide::MUtf8ToWide(const std::string& str)
     if (!::MultiByteToWideChar(CP_UTF8, 0, str.c_str(), INT(str.size()),
                                &m_str[0], cch + 1))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -338,7 +338,7 @@ inline MWideToUtf8::MWideToUtf8(const wchar_t *str)
     if (!::WideCharToMultiByte(CP_UTF8, 0, str, -1, &m_str[0], cch + 1,
                                NULL, NULL))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -349,7 +349,7 @@ inline MWideToUtf8::MWideToUtf8(const wchar_t *str, INT count)
     if (!::WideCharToMultiByte(CP_UTF8, 0, str, count, &m_str[0], cch + 1,
                                NULL, NULL))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
@@ -361,7 +361,7 @@ inline MWideToUtf8::MWideToUtf8(const std::wstring& str)
     if (!::WideCharToMultiByte(CP_UTF8, 0, str.c_str(), INT(str.size()),
                                &m_str[0], cch + 1, NULL, NULL))
     {
-        m_str.clear();
+        m_str.erase(m_str.begin(), m_str.end());
     }
 }
 
