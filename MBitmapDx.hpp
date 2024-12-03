@@ -74,11 +74,11 @@ inline INT GetEncoderClsid(const WCHAR *format, CLSID *pClsid)
         return -1;  // Failure
 
     Gdiplus::ImageCodecInfo *pInfo = NULL;
-    pInfo = (Gdiplus::ImageCodecInfo *)std::malloc(cbItem);
+    pInfo = (Gdiplus::ImageCodecInfo *)malloc(cbItem);
     if (pInfo == NULL)
         return -1;  // Failure
 
-    GetImageEncoders(nCount, cbItem, pInfo);
+    Gdiplus::GetImageEncoders(nCount, cbItem, pInfo);
 
     for (UINT k = 0; k < nCount; ++k)
     {
@@ -90,7 +90,7 @@ inline INT GetEncoderClsid(const WCHAR *format, CLSID *pClsid)
         }
     }
 
-    std::free(pInfo);
+    free(pInfo);
     return -1;  // Failure
 }
 
@@ -125,7 +125,7 @@ inline void MBitmapDx::FreeDelayPropertyItem()
 {
     if (m_pDelayItem)
     {
-        std::free(m_pDelayItem);
+        free(m_pDelayItem);
         m_pDelayItem = NULL;
     }
 }
@@ -180,7 +180,7 @@ inline BOOL MBitmapDx::SetBitmap(Gdiplus::Bitmap *pBitmap)
     cbItem = m_pBitmap->GetPropertyItemSize(PropertyTagFrameDelay);
     if (cbItem)
     {
-        m_pDelayItem = (PropertyItem *)std::malloc(cbItem);
+        m_pDelayItem = (PropertyItem *)malloc(cbItem);
         m_pBitmap->GetPropertyItem(PropertyTagFrameDelay, cbItem, m_pDelayItem);
     }
     else
@@ -193,14 +193,14 @@ inline BOOL MBitmapDx::SetBitmap(Gdiplus::Bitmap *pBitmap)
     cbItem = m_pBitmap->GetPropertyItemSize(PropertyTagLoopCount);
     if (cbItem)
     {
-        PropertyItem *pItem = (PropertyItem *)std::malloc(cbItem);
+        PropertyItem *pItem = (PropertyItem *)malloc(cbItem);
         if (pItem)
         {
             if (m_pBitmap->GetPropertyItem(PropertyTagLoopCount, cbItem, pItem) == Ok)
             {
                 m_nLoopCount = *(WORD *)pItem->value;
             }
-            std::free(pItem);
+            free(pItem);
         }
     }
 
