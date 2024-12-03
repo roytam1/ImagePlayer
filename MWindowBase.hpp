@@ -88,6 +88,27 @@ class MDialogBase;
     #endif
 #endif
 
+#if defined(_MSC_VER) && _MSC_VER < 1300
+	#define GetWindowLongPtr GetWindowLong
+	#define GWLP_USERDATA GWL_USERDATA
+	#define SetWindowLongPtr SetWindowLong
+	#define DWLP_USER DWL_USER
+    #undef INT_PTR
+    #undef LONG_PTR
+    #ifdef _WIN64
+        #define INT_PTR     LPARAM
+        #define LONG_PTR    LPARAM
+    #else
+        #define INT_PTR     BOOL
+        #define LONG_PTR    BOOL
+    #endif
+
+
+	#ifndef IS_INTRESOURCE
+		#define IS_INTRESOURCE(hh) (HIWORD(hh)==NULL)
+	#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // public functions
 
