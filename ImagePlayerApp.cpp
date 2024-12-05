@@ -23,6 +23,7 @@ protected:
     TCHAR       m_szFile[MAX_PATH];
     MBitmapDx   m_bitmap;
     HWND        m_mci_window;
+    HPALETTE    m_hPal;
 
 public:
     MImagePlayerApp(HINSTANCE hInst) : m_hInst(hInst)
@@ -53,6 +54,15 @@ public:
         KillTimer(hwnd, TIMER_ID);
         MCIWndStop(m_mci_window);
         MCIWndClose(m_mci_window);
+        if(m_hPal) {
+            DeleteObject(m_hPal);
+            m_hPal = NULL;
+        }
+        HDC hScreenDC = GetDC(NULL); // get desktop DC
+        if(GetDeviceCaps(hScreenDC, RASTERCAPS) & RC_PALETTE) {
+            m_hPal = CreateHalftonePalette(hScreenDC);
+        }
+        DeleteDC(hScreenDC); // delete it after use
 
         using namespace Gdiplus;
         MStringW strTextW = MTextToWide(pszFile);
@@ -128,6 +138,11 @@ public:
         HDC hDC = BeginPaint(hwnd, &ps);
         if (hDC)
         {
+            if(GetDeviceCaps(hDC, RASTERCAPS) & RC_PALETTE) {
+                SelectPalette( hDC, m_hPal, TRUE );
+                RealizePalette(hDC);
+                SetStretchBltMode(hDC, HALFTONE);
+            }
             if (m_bitmap.GetBitmap())
             {
                 LONG cx, cy;
@@ -135,8 +150,14 @@ public:
                 if (hbm)
                 {
                     HDC hMemDC = CreateCompatibleDC(NULL);
+                    if(GetDeviceCaps(hMemDC, RASTERCAPS) & RC_PALETTE) {
+                        SelectPalette( hMemDC, m_hPal, FALSE );
+                        RealizePalette(hMemDC);
+                        SetStretchBltMode(hMemDC, HALFTONE);
+                    }
                     HGDIOBJ hbmOld = SelectObject(hMemDC, hbm);
-                    BitBlt(hDC, 0, 0, cx, cy, hMemDC, 0, 0, SRCCOPY);
+                    //BitBlt(hDC, 0, 0, cx, cy, hMemDC, 0, 0, SRCCOPY);
+                    StretchBlt(hDC, 0, 0, cx, cy, hMemDC, 0, 0, cx, cy, SRCCOPY);
                     SelectObject(hMemDC, hbmOld);
 
                     DeleteDC(hMemDC);
